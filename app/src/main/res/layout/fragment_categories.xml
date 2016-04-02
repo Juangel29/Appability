@@ -4,8 +4,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context="grability.com.appability.ui.fragments.CategoriesFragment"
-             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-             tools:showIn="@layout/activity_main">
+             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvCategories"
