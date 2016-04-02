@@ -7,9 +7,10 @@ import io.realm.RealmObject;
  * Created by juanangelardila on 4/1/16.
  */
 public class Category extends RealmObject {
+
     private String id;
-    private String term;
-    private String label;
+    private String name;
+    private String scheme;
 
     public String getId() {
         return id;
@@ -19,19 +20,19 @@ public class Category extends RealmObject {
         this.id = id;
     }
 
-    public String getTerm() {
-        return term;
+    public String getName() {
+        return name;
     }
 
-    public void setTerm(String term) {
-        this.term = term;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLabel() {
-        return label;
+    public String getScheme() {
+        return scheme;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setScheme(String scheme) {
+        this.scheme = scheme;
     }
 }
