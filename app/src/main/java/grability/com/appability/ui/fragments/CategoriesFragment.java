@@ -4,11 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,6 +51,7 @@ public class CategoriesFragment extends Fragment implements ICategories{
         View view = inflater.inflate(R.layout.fragment_categories, container, false);
         ButterKnife.bind(this, view);
 
+
         categoryPresenter = new CategoryPresenter(getContext(), this);
         initCategoriesAdapter();
         return view;
@@ -74,7 +77,14 @@ public class CategoriesFragment extends Fragment implements ICategories{
     private void initCategoriesAdapter() {
         categories = MyApplication.getInstance().getDataManagerInstance().getCategories();
         categoriesAdapter = new CategoriesAdapter(getContext(), categories);
-        rvCategories.setLayoutManager(new LinearLayoutManager(getContext()));
+        categoriesAdapter.setOnItemClickListener(new CategoriesAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view) {
+                Toast.makeText(getContext(), "Position: " + rvCategories.getChildAdapterPosition(view), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        rvCategories.setLayoutManager(getResources().getBoolean(R.bool.isTablet) ? new GridLayoutManager(getContext(), 5) : new LinearLayoutManager(getContext()));
         rvCategories.setAdapter(categoriesAdapter);
         realmChangeListener = new RealmChangeListener() {
             @Override
