@@ -4,61 +4,97 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import grability.com.appability.MyApplication;
 import grability.com.appability.R;
+import grability.com.appability.interfaces.ICategories;
+import grability.com.appability.entities.Category;
+import grability.com.appability.persistence.DataManager;
+import grability.com.appability.presenters.CategoryPresenter;
+import grability.com.appability.ui.adapters.CategoriesAdapter;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 
 
-public class CategoriesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class CategoriesFragment extends Fragment implements ICategories{
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    @Bind(R.id.rvCategories) RecyclerView rvCategories;
+
+    private CategoriesAdapter categoriesAdapter;
+    private RealmResults<Category> categories;
+    private RealmChangeListener realmChangeListener;
+
+    private CategoryPresenter categoryPresenter;
 
     private OnFragmentInteractionListener mListener;
 
     public CategoriesFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_categories, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_categories, container, false);
+        ButterKnife.bind(this, view);
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+
+        categoryPresenter = new CategoryPresenter(getContext(), this);
+        initCategoriesAdapter();
+        return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
+//        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        categoryPresenter.loadCategories();
+    }
+
+
+    private void initCategoriesAdapter() {
+        categories = MyApplication.getInstance().getDataManagerInstance().getCategories();
+        categoriesAdapter = new CategoriesAdapter(getContext(), categories);
+        categoriesAdapter.setOnItemClickListener(new CategoriesAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view) {
+                Toast.makeText(getContext(), "Position: " + rvCategories.getChildAdapterPosition(view), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        rvCategories.setLayoutManager(getResources().getBoolean(R.bool.isTablet) ? new GridLayoutManager(getContext(), 5) : new LinearLayoutManager(getContext()));
+        rvCategories.setAdapter(categoriesAdapter);
+        realmChangeListener = new RealmChangeListener() {
+            @Override
+            public void onChange() {
+                synchronized(rvCategories) {
+                    categoriesAdapter.notifyDataSetChanged();
+                }
+            }
+        };
+        categories.addChangeListener(realmChangeListener);
     }
 
     @Override
@@ -67,16 +103,12 @@ public class CategoriesFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    @Override
+    public void onCategoriesLoaded(DataManager.DataOrigin origin, RealmResults<Category> categories) {
+
+
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
