@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +12,26 @@ import android.view.ViewGroup;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import grability.com.appability.MyApplication;
 import grability.com.appability.R;
+import grability.com.appability.interfaces.ICategories;
+import grability.com.appability.entities.Category;
+import grability.com.appability.persistence.DataManager;
+import grability.com.appability.presenters.CategoryPresenter;
+import grability.com.appability.ui.adapters.CategoriesAdapter;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 
 
-public class CategoriesFragment extends Fragment {
+public class CategoriesFragment extends Fragment implements ICategories{
 
     @Bind(R.id.rvCategories) RecyclerView rvCategories;
+
+    private CategoriesAdapter categoriesAdapter;
+    private RealmResults<Category> categories;
+    private RealmChangeListener realmChangeListener;
+
+    private CategoryPresenter categoryPresenter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -33,23 +48,55 @@ public class CategoriesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_categories, container, false);
         ButterKnife.bind(this, view);
+
+        categoryPresenter = new CategoryPresenter(getContext(), this);
+        initCategoriesAdapter();
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
-        }
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
+//        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        categoryPresenter.loadCategories();
+    }
+
+
+    private void initCategoriesAdapter() {
+        categories = MyApplication.getInstance().getDataManagerInstance().getCategories();
+        categoriesAdapter = new CategoriesAdapter(getContext(), categories);
+        rvCategories.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvCategories.setAdapter(categoriesAdapter);
+        realmChangeListener = new RealmChangeListener() {
+            @Override
+            public void onChange() {
+                synchronized(rvCategories) {
+                    categoriesAdapter.notifyDataSetChanged();
+                }
+            }
+        };
+        categories.addChangeListener(realmChangeListener);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onCategoriesLoaded(DataManager.DataOrigin origin, RealmResults<Category> categories) {
+
+
     }
 
     public interface OnFragmentInteractionListener {

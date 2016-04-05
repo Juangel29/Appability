@@ -1,5 +1,7 @@
 package grability.com.appability.network;
 
+import org.json.JSONArray;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -16,25 +18,33 @@ public class AppsClient {
 
     private OkHttpClient client = new OkHttpClient();
 
-    public void getData(){
+    public void getData(final OnCallFinished listener){
         Request request = new Request.Builder()
-                .url("")
+                .url("https://itunes.apple.com/us/rss/topfreeapplications/limit=20/json")
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                if(listener != null) {
+                    listener.onError();
+                }
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
-                JSONParser jsonParser = new JSONParser(response.body().toString());
-                jsonParser.getApplications();
-                jsonParser.getCategories();
+                JSONParser jsonParser = new JSONParser(response.body().string());
+                if(listener != null) {
+                    listener.onSuccess(jsonParser.getCategories(), jsonParser.getApplications());
+                }
             }
         });
+    }
+
+
+    public interface OnCallFinished {
+        void onSuccess(JSONArray categories, JSONArray applications);
+        void onError();
     }
 
 }

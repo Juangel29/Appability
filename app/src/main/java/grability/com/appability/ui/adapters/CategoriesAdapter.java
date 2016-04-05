@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import grability.com.appability.models.Category;
+import grability.com.appability.entities.Category;
 import io.realm.RealmResults;
 
 /**
@@ -25,12 +25,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesViewHolder
     public CategoriesAdapter(Context context, RealmResults<Category> categories) {
         this.categories = categories;
 
-        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return true;
-            }
-        });
+//        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+//            @Override
+//            public boolean onSingleTapUp(MotionEvent e) {
+//                return true;
+//            }
+//        });
     }
 
     @Override

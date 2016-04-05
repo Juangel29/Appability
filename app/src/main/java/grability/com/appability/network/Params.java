@@ -1,6 +1,7 @@
 package grability.com.appability.network;
 
 /**
+ *
  * Created by juanangelardila on 4/2/16.
  */
 public class Params {
@@ -20,7 +21,7 @@ public class Params {
     public final static String TITLE = "title";
     public final static String ID = "id";
     public final static String IM_ID = "im:id";
-    public final static String ARTIST = "artist";
+    public final static String ARTIST = "im:artist";
     public final static String RELEASE_DATE = "im:releaseDate";
 
     public final static String CATEGORY = "category";

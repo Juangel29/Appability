@@ -1,6 +1,7 @@
-package grability.com.appability.models;
+package grability.com.appability.entities;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  *
@@ -8,9 +9,12 @@ import io.realm.RealmObject;
  */
 public class Category extends RealmObject {
 
+    @PrimaryKey
     private String id;
     private String name;
     private String scheme;
+
+    public static String NAME_FIELD = "name";
 
     public String getId() {
         return id;

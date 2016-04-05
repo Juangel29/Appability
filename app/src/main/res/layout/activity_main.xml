@@ -22,7 +22,13 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/fragment_categories"/>
+    <fragment
+        class="grability.com.appability.ui.fragments.CategoriesFragment"
+        android:id="@+id/fragmentCategories"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </fragment>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
