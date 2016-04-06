@@ -3,6 +3,7 @@ package grability.com.appability.ui.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -90,6 +91,8 @@ public class CategoriesFragment extends Fragment implements ICategories{
                 categoriesAdapter.notifyDataSetChanged();
             }
         };
+        rvCategories.setHasFixedSize(true);
+        rvCategories.setItemAnimator(new DefaultItemAnimator());
         categories.addChangeListener(realmChangeListener);
     }
 

@@ -88,6 +88,7 @@ public class ApplicationsFragment extends Fragment implements IApplications{
                 applicationsAdapter.notifyDataSetChanged();
             }
         };
+        rvApplications.setHasFixedSize(true);
         applications.addChangeListener(realmChangeListener);
     }
 

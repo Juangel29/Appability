@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import grability.com.appability.R;
 import grability.com.appability.entities.Category;
 import io.realm.RealmResults;
 
@@ -27,7 +28,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesViewHolder
 
     @Override
     public CategoriesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_item, parent, false);
         itemView.setOnClickListener(this);
         CategoriesViewHolder viewHolder = new CategoriesViewHolder(itemView);
         return viewHolder;

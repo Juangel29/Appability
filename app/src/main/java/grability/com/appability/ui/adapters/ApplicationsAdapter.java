@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import grability.com.appability.R;
 import grability.com.appability.entities.Application;
 import io.realm.RealmResults;
 
@@ -17,14 +18,16 @@ public class ApplicationsAdapter extends RecyclerView.Adapter<ApplicationsViewHo
 
     private OnItemClickListener onItemClickListener;
     private RealmResults<Application> applications;
+    private Context context;
 
     public ApplicationsAdapter(Context context, RealmResults<Application> applications) {
         this.applications = applications;
+        this.context = context;
     }
 
     @Override
     public ApplicationsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.application_item, parent, false);
         itemView.setOnClickListener(this);
         ApplicationsViewHolder viewHolder = new ApplicationsViewHolder(itemView);
         return viewHolder;
@@ -33,7 +36,7 @@ public class ApplicationsAdapter extends RecyclerView.Adapter<ApplicationsViewHo
     @Override
     public void onBindViewHolder(ApplicationsViewHolder viewHolder, int position) {
         Application application = applications.get(position);
-        viewHolder.bindCategory(application);
+        viewHolder.bindCategory(context, application);
     }
 
     @Override

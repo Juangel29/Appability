@@ -27,7 +27,8 @@
         class="grability.com.appability.ui.fragments.ApplicationsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:layout="@layout/fragment_applications">
     </fragment>
 
 
