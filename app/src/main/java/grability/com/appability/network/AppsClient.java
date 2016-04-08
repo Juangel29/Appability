@@ -4,6 +4,7 @@ import org.json.JSONArray;
 
 import java.io.IOException;
 
+import grability.com.appability.BuildConfig;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -20,7 +21,7 @@ public class AppsClient {
 
     public void getData(final OnCallFinished listener){
         Request request = new Request.Builder()
-                .url("https://itunes.apple.com/us/rss/topfreeapplications/limit=20/json")
+                .url(BuildConfig.URL_SERVICE)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
