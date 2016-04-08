@@ -44,13 +44,13 @@ public class DataManager {
         }
     }
 
-    public void getApplications (final OnDataLoaded listener, final String categoryId,final String searchTerm) {
+    public void getApplications (final OnDataLoaded listener, final String categoryId) {
         if(NetworkUtil.isNetworkAvailable(context)) {
             updateCacheData(new AppsClient.OnCallFinished() {
                 @Override
                 public void onSuccess(JSONArray categories, JSONArray applications) {
                     saveCache(categories, applications);
-                    listener.dataLoaded(DataOrigin.NETWORK, getApplications(categoryId, searchTerm));
+                    listener.dataLoaded(DataOrigin.NETWORK, getApplications(categoryId));
                 }
 
                 @Override
@@ -60,7 +60,7 @@ public class DataManager {
             });
 
         } else {
-            listener.dataLoaded(DataOrigin.CACHE, getApplications(categoryId, searchTerm));
+            listener.dataLoaded(DataOrigin.CACHE, getApplications(categoryId));
         }
     }
 
@@ -86,10 +86,11 @@ public class DataManager {
         return realm.where(Category.class).findAllSorted(Category.NAME_FIELD);
     }
 
-    public RealmResults<Application> getApplications (String categoryId, String searchTerm) {
+    public RealmResults<Application> getApplications (String categoryId) {
         Realm realm = Realm.getDefaultInstance();
-        return realm.where(Application.class)//.contains(Application.NAME_FIELD, searchTerm)
-        .equalTo(Category.ID_FIELD, categoryId).findAllSorted(Application.NAME_FIELD);
+        return realm.where(Application.class)
+                .equalTo(Category.ID_FIELD, categoryId)
+                .findAllSorted(Application.NAME_FIELD);
     }
 
     public Application getApplication (String idApplication) {

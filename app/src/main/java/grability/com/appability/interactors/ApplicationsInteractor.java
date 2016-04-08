@@ -20,7 +20,7 @@ public class ApplicationsInteractor {
         dataManager = new DataManager(context);
     }
 
-    public void getApplications (String categoryId, String searchTerm) {
+    public void getApplications (String categoryId) {
         dataManager.getApplications(new DataManager.OnDataLoaded() {
             @Override
             public void dataLoaded(DataManager.DataOrigin origin, RealmResults data) {
@@ -31,7 +31,7 @@ public class ApplicationsInteractor {
             public void dataFailed() {
                 listener.onLoadFailure();
             }
-        }, categoryId, searchTerm);
+        }, categoryId);
     }
 
 }

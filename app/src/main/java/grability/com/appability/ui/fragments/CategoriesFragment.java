@@ -2,6 +2,7 @@ package grability.com.appability.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -78,8 +79,7 @@ public class CategoriesFragment extends Fragment implements ICategories{
             @Override
             public void onItemClick(View view) {
                 int position = rvCategories.getChildAdapterPosition(view);
-                String categoryId = categories.get(position).getId();
-                listener.onCategoryClicked(categoryId);
+                listener.onCategorySelected(view, categories.get(position));
             }
         });
 
@@ -104,12 +104,12 @@ public class CategoriesFragment extends Fragment implements ICategories{
 
     @Override
     public void onCategoriesLoaded(DataManager.DataOrigin origin, RealmResults<Category> categories) {
-
-
+        if (origin == DataManager.DataOrigin.CACHE) {
+            Snackbar.make(rvCategories, getString(R.string.no_internet_connection_message), Snackbar.LENGTH_INDEFINITE).show();
+        }
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onCategoryClicked(String categoryId);
+        void onCategorySelected(View view, Category category);
     }
 }

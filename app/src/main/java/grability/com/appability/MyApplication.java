@@ -18,6 +18,8 @@ public class MyApplication extends Application implements Application.ActivityLi
     private static MyApplication instance;
     private DataManager dataManagerInstance;
 
+    private boolean isTablet;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -25,6 +27,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         RealmConfiguration config = new RealmConfiguration.Builder(this).build();
         Realm.setDefaultConfiguration(config);
         registerActivityLifecycleCallbacks(this);
+        isTablet = getResources().getBoolean(R.bool.isTablet);
     }
 
     public static MyApplication getInstance () {
@@ -40,7 +43,7 @@ public class MyApplication extends Application implements Application.ActivityLi
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        if(getResources().getBoolean(R.bool.isTablet)){
+        if(isTablet){
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else {
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -64,4 +67,8 @@ public class MyApplication extends Application implements Application.ActivityLi
 
     @Override
     public void onActivityDestroyed(Activity activity) { }
+
+    public boolean isTablet() {
+        return isTablet;
+    }
 }

@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name=".ui.activities.ApplicationsActivity"
-            android:label="@string/title_activity_products"
+            android:label="@string/title_activity_applications"
             android:parentActivityName=".ui.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

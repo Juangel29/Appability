@@ -1,15 +1,14 @@
 package grability.com.appability.ui.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,6 +21,8 @@ import grability.com.appability.presenters.ApplicationPresenter;
 import grability.com.appability.ui.adapters.ApplicationsAdapter;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
+
+import static grability.com.appability.ui.activities.MainActivity.*;
 
 
 public class ApplicationsFragment extends Fragment implements IApplications{
@@ -56,27 +57,29 @@ public class ApplicationsFragment extends Fragment implements IApplications{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        categoryId = getActivity().getIntent().getStringExtra("categoryId");
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
-//        }
+        if(getActivity().getIntent().getExtras() != null) {
+            categoryId = getActivity().getIntent().getStringExtra(EXTRA_CATEGORY_ID);
+        }
+        if (context instanceof OnFragmentInteractionListener) {
+            listener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        applicationPresenter.loadApplications(categoryId, "");
+        applicationPresenter.loadApplications(categoryId);
     }
 
     private void initApplicationsAdapter() {
-        applications = MyApplication.getInstance().getDataManagerInstance().getApplications(categoryId, "");
+        applications = MyApplication.getInstance().getDataManagerInstance().getApplications(categoryId);
         applicationsAdapter = new ApplicationsAdapter(getContext(), applications);
         applicationsAdapter.setOnItemClickListener(new ApplicationsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view) {
-                Toast.makeText(getContext(), "Position: " + rvApplications.getChildAdapterPosition(view), Toast.LENGTH_SHORT).show();
+                listener.onApplicationSelected(view, applications.get(rvApplications.getChildAdapterPosition(view)));
             }
         });
 
@@ -88,8 +91,12 @@ public class ApplicationsFragment extends Fragment implements IApplications{
                 applicationsAdapter.notifyDataSetChanged();
             }
         };
-        rvApplications.setHasFixedSize(true);
         applications.addChangeListener(realmChangeListener);
+        if(MyApplication.getInstance().isTablet()) {
+            if (!applications.isEmpty()) {
+                listener.onApplicationSelected(null, applications.first());
+            }
+        }
     }
 
     @Override
@@ -100,11 +107,12 @@ public class ApplicationsFragment extends Fragment implements IApplications{
 
     @Override
     public void onApplicationsLoaded(DataManager.DataOrigin origin, RealmResults<Application> applications) {
-
+        if (origin == DataManager.DataOrigin.CACHE) {
+            Snackbar.make(rvApplications, getString(R.string.no_internet_connection_message), Snackbar.LENGTH_INDEFINITE).show();
+        }
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onApplicationSelected(View view, Application application);
     }
 }

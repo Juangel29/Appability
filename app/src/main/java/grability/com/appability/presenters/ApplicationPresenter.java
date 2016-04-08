@@ -40,7 +40,7 @@ public class ApplicationPresenter implements OnApplicationsFinishedListener, IAp
     }
 
     @Override
-    public void loadApplications(String categoryId, String searchTerm) {
-        categoriesInteractor.getApplications(categoryId, searchTerm);
+    public void loadApplications(String categoryId) {
+        categoriesInteractor.getApplications(categoryId);
     }
 }
