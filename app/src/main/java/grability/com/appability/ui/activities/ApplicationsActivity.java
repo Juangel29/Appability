@@ -67,36 +67,37 @@ public class ApplicationsActivity extends AppCompatActivity implements Applicati
         }
 
         if (view != null &&  Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ViewCompat.setTransitionName(view.findViewById(R.id.imvImage), getString(R.string.transition_image));
-            ViewCompat.setTransitionName(view.findViewById(R.id.txvName), getString(R.string.transition_name));
-            ViewCompat.setTransitionName(view.findViewById(R.id.txvArtist), getString(R.string.transition_artist));
-            ViewCompat.setTransitionName(view.findViewById(R.id.txvRights), getString(R.string.transition_rights));
-
+            setTransitionNames(view);
             fragmentTransaction.addSharedElement(view.findViewById(R.id.imvImage), getString(R.string.transition_image));
             fragmentTransaction.addSharedElement(view.findViewById(R.id.txvName), getString(R.string.transition_name));
             fragmentTransaction.addSharedElement(view.findViewById(R.id.txvArtist), getString(R.string.transition_artist));
             fragmentTransaction.addSharedElement(view.findViewById(R.id.txvRights), getString(R.string.transition_rights));
 
             Transition move = TransitionInflater.from(this).inflateTransition(android.R.transition.move);
-            Transition top = TransitionInflater.from(this).inflateTransition(android.R.transition.slide_top);
-
+            Transition slideTop = TransitionInflater.from(this).inflateTransition(android.R.transition.slide_top);
             Slide slideTransition = new Slide(Gravity.RIGHT);
             slideTransition.setDuration(1000);
-            fragment.setEnterTransition(slideTransition);
-            fragment.setSharedElementEnterTransition(move);
-            fragment.setSharedElementReturnTransition(top);
-
             Slide slideOutTransition = new Slide(Gravity.LEFT);
             slideTransition.setDuration(500);
-            applicationsFragment.setExitTransition(slideOutTransition);
 
+            fragment.setEnterTransition(slideTransition);
+            fragment.setSharedElementEnterTransition(move);
+            fragment.setSharedElementReturnTransition(slideTop);
             fragment.setAllowEnterTransitionOverlap(false);
             fragment.setAllowReturnTransitionOverlap(false);
-            applicationsFragment.setAllowReturnTransitionOverlap(false);
 
+            applicationsFragment.setExitTransition(slideOutTransition);
+            applicationsFragment.setAllowReturnTransitionOverlap(false);
         }
 
         fragmentTransaction.commit();
+    }
+
+    private void setTransitionNames (View view) {
+        ViewCompat.setTransitionName(view.findViewById(R.id.imvImage), getString(R.string.transition_image));
+        ViewCompat.setTransitionName(view.findViewById(R.id.txvName), getString(R.string.transition_name));
+        ViewCompat.setTransitionName(view.findViewById(R.id.txvArtist), getString(R.string.transition_artist));
+        ViewCompat.setTransitionName(view.findViewById(R.id.txvRights), getString(R.string.transition_rights));
     }
 
     @Override

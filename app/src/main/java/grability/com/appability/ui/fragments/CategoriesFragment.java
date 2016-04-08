@@ -74,7 +74,7 @@ public class CategoriesFragment extends Fragment implements ICategories{
 
     private void initCategoriesAdapter() {
         categories = MyApplication.getInstance().getDataManagerInstance().getCategories();
-        categoriesAdapter = new CategoriesAdapter(getContext(), categories);
+        categoriesAdapter = new CategoriesAdapter(categories);
         categoriesAdapter.setOnItemClickListener(new CategoriesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view) {
