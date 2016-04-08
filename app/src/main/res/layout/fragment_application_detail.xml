@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+              android:orientation="vertical"
+             tools:context="grability.com.appability.ui.fragments.ApplicationDetailFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding">
+
+        <ImageView
+            android:layout_width="@dimen/image_size_big"
+            android:layout_height="@dimen/image_size_big"
+            android:id="@+id/imvImage"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="@dimen/padding_small">
+
+            <TextView
+                android:id="@+id/txvName"
+                style="@style/TextViewStyle"
+                android:textColor="@color/colorPrimaryText"/>
+
+            <TextView
+                android:id="@+id/txvArtist"
+                style="@style/TextViewStyle"
+                android:textColor="@color/colorSecondaryText"/>
+
+            <TextView
+                android:id="@+id/txvRights"
+                style="@style/TextViewStyle"
+                android:textColor="@color/colorSecondaryText"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding"
+        android:layout_marginTop="@dimen/margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txvCategory"
+                style="@style/TextViewStyle"/>
+
+            <TextView
+                android:id="@+id/txvReleaseDate"
+                style="@style/TextViewStyle"/>
+
+            <TextView
+                android:id="@+id/txvSummary"
+                style="@style/TextViewStyle"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

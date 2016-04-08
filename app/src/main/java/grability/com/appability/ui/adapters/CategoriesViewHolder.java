@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import grability.com.appability.R;
 import grability.com.appability.entities.Category;
 
 /**
@@ -14,7 +15,7 @@ import grability.com.appability.entities.Category;
  */
 public class CategoriesViewHolder extends RecyclerView.ViewHolder {
 
-    @Bind(android.R.id.text1)
+    @Bind(R.id.txvText)
     TextView categoryName;
 
     public CategoriesViewHolder(View itemView) {

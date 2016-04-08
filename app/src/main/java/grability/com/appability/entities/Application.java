@@ -21,6 +21,7 @@ public class Application extends RealmObject {
     private Category category;
 
     public static String NAME_FIELD = "name";
+    public static String ID_FIELD = "id";
 
     public String getName() {
         return name;

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.activities.MainActivity">
+    tools:context=".ui.activities.ApplicationsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -17,19 +17,18 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:layout_scrollFlags="exitUntilCollapsed|enterAlways"/>
 
     </android.support.design.widget.AppBarLayout>
 
-    <fragment
-        class="grability.com.appability.ui.fragments.CategoriesFragment"
-        android:id="@+id/fragmentCategories"
+    <FrameLayout
+        android:id="@+id/frlContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:layout="@layout/fragment_categories">
-
-    </fragment>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

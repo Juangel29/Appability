@@ -1,15 +1,21 @@
 package grability.com.appability.ui.activities;
 
-import android.content.pm.ActivityInfo;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 
 import grability.com.appability.R;
+import grability.com.appability.entities.Category;
+import grability.com.appability.ui.fragments.CategoriesFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CategoriesFragment.OnFragmentInteractionListener {
+
+    public final static String EXTRA_CATEGORY_ID = "categoryId";
+    public final static String EXTRA_CATEGORY_TITLE = "title";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,26 +23,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if(getResources().getBoolean(R.bool.isTablet)){
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onCategorySelected(View view, Category category) {
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+        Intent intent = new Intent(this, ApplicationsActivity.class);
+        intent.putExtra(EXTRA_CATEGORY_ID, category.getId());
+        intent.putExtra(EXTRA_CATEGORY_TITLE, category.getName());
+        ActivityCompat.startActivity(this, intent, options.toBundle());
     }
 }

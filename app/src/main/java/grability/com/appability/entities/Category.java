@@ -14,6 +14,7 @@ public class Category extends RealmObject {
     private String name;
     private String scheme;
 
+    public static String ID_FIELD = "category.id";
     public static String NAME_FIELD = "name";
 
     public String getId() {

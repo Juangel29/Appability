@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.activities.MainActivity">
+    tools:context=".ui.activities.ApplicationsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -22,14 +22,33 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <fragment
-        class="grability.com.appability.ui.fragments.CategoriesFragment"
-        android:id="@+id/fragmentCategories"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="horizontal"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:layout="@layout/fragment_categories">
+        android:baselineAligned="false">
 
-    </fragment>
+        <fragment
+            android:id="@+id/frApplications"
+            class="grability.com.appability.ui.fragments.ApplicationsFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:layout="@layout/fragment_applications">
+
+        </fragment>
+
+        <FrameLayout
+            android:id="@+id/frlContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+        </FrameLayout>
+
+    </LinearLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>
