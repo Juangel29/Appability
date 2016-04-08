@@ -25,6 +25,26 @@ public class DataManager {
         this.context = context;
     }
 
+
+    public void getData (final OnDataLoaded listener) {
+        if(NetworkUtil.isNetworkAvailable(context)) {
+            updateCacheData(new AppsClient.OnCallFinished() {
+                @Override
+                public void onSuccess(JSONArray categories, JSONArray applications) {
+                    saveCache(categories, applications);
+                    listener.dataLoaded(DataOrigin.NETWORK, null);
+                }
+
+                @Override
+                public void onError() {
+                    listener.dataFailed();
+                }
+            });
+        } else {
+            listener.dataLoaded(DataOrigin.CACHE, null);
+        }
+    }
+
     public void getCategories (final OnDataLoaded listener) {
         if(NetworkUtil.isNetworkAvailable(context)) {
             updateCacheData(new AppsClient.OnCallFinished() {

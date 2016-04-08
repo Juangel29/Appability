@@ -29,8 +29,7 @@ public class ApplicationsAdapter extends RecyclerView.Adapter<ApplicationsViewHo
     public ApplicationsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.application_item, parent, false);
         itemView.setOnClickListener(this);
-        ApplicationsViewHolder viewHolder = new ApplicationsViewHolder(itemView);
-        return viewHolder;
+        return new ApplicationsViewHolder(itemView);
     }
 
     @Override

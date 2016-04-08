@@ -1,6 +1,5 @@
 package grability.com.appability.ui.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -22,7 +21,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesViewHolder
 
     private RealmResults<Category> categories;
 
-    public CategoriesAdapter(Context context, RealmResults<Category> categories) {
+    public CategoriesAdapter(RealmResults<Category> categories) {
         this.categories = categories;
     }
 
@@ -30,8 +29,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesViewHolder
     public CategoriesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_item, parent, false);
         itemView.setOnClickListener(this);
-        CategoriesViewHolder viewHolder = new CategoriesViewHolder(itemView);
-        return viewHolder;
+        return new CategoriesViewHolder(itemView);
     }
 
     @Override
