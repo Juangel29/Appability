@@ -17,7 +17,6 @@ import butterknife.ButterKnife;
 import grability.com.appability.MyApplication;
 import grability.com.appability.R;
 import grability.com.appability.entities.Application;
-import grability.com.appability.ui.activities.ApplicationsActivity;
 
 import static grability.com.appability.ui.activities.ApplicationsActivity.ARG_APP_ID;
 
